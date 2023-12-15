@@ -12,7 +12,8 @@ import lombok.ToString;
 @Table(name = "employees")
 @NamedQueries({
         @NamedQuery(name = "Employee.findAll", query = "select e from Employee e"),
-        @NamedQuery(name = "Employee.findById", query = "select e from Employee e where e.id = :id")
+        @NamedQuery(name = "Employee.findById", query = "select e from Employee e where e.id = :id"),
+        @NamedQuery(name = "Employee.findByEmail", query = "select e.email from Employee e where e.email = :email")
 })
 @ToString
 public class Employee {

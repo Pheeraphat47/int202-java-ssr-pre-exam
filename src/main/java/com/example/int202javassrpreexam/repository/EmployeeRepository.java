@@ -26,4 +26,11 @@ public class EmployeeRepository {
                 .setParameter("id", employeeId)
                 .getSingleResult();
     }
+
+    public Employee findByEmail(String email) {
+        return getEntityManager()
+                .createNamedQuery("Employee.findByEmail", Employee.class)
+                .setParameter("email", email)
+                .getSingleResult();
+    }
 }
