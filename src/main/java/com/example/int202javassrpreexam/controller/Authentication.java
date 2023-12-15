@@ -10,12 +10,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet(name = "Authentication", value = "/057/login")
 public class Authentication extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
     @Override
@@ -24,26 +25,34 @@ public class Authentication extends HttpServlet {
         String password = request.getParameter("password");
 
         if (email == null || email.trim().isBlank()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            request.setAttribute("loginError", "You must enter the email to proceed!");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
             return;
         }
 
         EmployeeRepository employeeRepository = new EmployeeRepository();
-        Employee employee = employeeRepository.findByEmail(email);
+        Optional<Employee> employeeOpt = employeeRepository.findByEmail(email);
 
-        if (employee == null) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+        if (employeeOpt.isEmpty()) {
+            request.setAttribute("loginError", "This email is not exist!");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
             return;
         }
 
-        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id, 16, 16);
+        Employee employee = employeeOpt.get();
+
+        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2d, 16, 16);
         char[] passwordArray = password.toCharArray();
         boolean isValid = argon2.verify(employee.getPassword(), passwordArray);
-
+        System.out.println(email);
+        System.out.println(password);
+        System.out.println(isValid);
         if (!isValid) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            request.setAttribute("loginError", "Invalid Password or Email");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
         } else {
             request.getSession().setAttribute("user", employee);
+            response.sendRedirect("/company");
         }
     }
 }
