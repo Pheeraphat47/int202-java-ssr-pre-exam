@@ -18,7 +18,7 @@ public class TestQuery {
     public static void main(String[] args) {
 //        testQuery();
 //        testRepository();
-//        assignPassword();
+        assignPassword();
     }
 
     public static void testRepository() {
