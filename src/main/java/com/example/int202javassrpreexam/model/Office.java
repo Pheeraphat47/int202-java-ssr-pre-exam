@@ -3,6 +3,7 @@ package com.example.int202javassrpreexam.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -10,9 +11,12 @@ import java.util.List;
 @Table(name = "offices")
 @Setter
 @Getter
-@NamedQueries(
-        @NamedQuery(name = "Office.findAll", query = "select o from Office o")
-)
+@NamedQueries({
+        @NamedQuery(name = "Office.findAll", query = "select o from Office o"),
+        @NamedQuery(name = "Office.findById", query = "select o from Office o where o.id = :id"),
+        @NamedQuery(name = "Office.getEmployees", query = "select e.employees from Office e where e.id = :id")
+})
+@ToString(exclude = "employees")
 public class Office {
     @Id
     @Column(name = "officeCode", nullable = false)
