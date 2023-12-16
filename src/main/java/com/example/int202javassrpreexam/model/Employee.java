@@ -13,13 +13,14 @@ import lombok.ToString;
 @NamedQueries({
         @NamedQuery(name = "Employee.findAll", query = "select e from Employee e"),
         @NamedQuery(name = "Employee.findById", query = "select e from Employee e where e.id = :id"),
-        @NamedQuery(name = "Employee.findByEmail", query = "select e from Employee e where e.email = :email")
+        @NamedQuery(name = "Employee.findByEmail", query = "select e from Employee e where e.email = :email"),
+        @NamedQuery(name = "Employee.updateReportTo", query = "update Employee e set e.reportTo = :newManagerId where e.reportTo = :currentManagerId")
 })
 @ToString
 public class Employee {
 
     @Id
-    @Column(name= "employeeNumber", nullable = false)
+    @Column(name = "employeeNumber", nullable = false)
     private Integer id;
     private String firstName;
     private String lastName;
@@ -28,5 +29,6 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "officeCode")
     private Office office;
+    private String reportTo;
     private String password;
 }

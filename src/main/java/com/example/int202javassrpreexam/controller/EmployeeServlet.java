@@ -29,7 +29,9 @@ public class EmployeeServlet extends HttpServlet {
         String employeeIdParam = request.getParameter("employeeId");
         Integer employeeId = Integer.parseInt(employeeIdParam);
         EmployeeRepository employeeRepository = new EmployeeRepository();
+//        employeeRepository.updateReportsToForEmployee(employeeId, null);
         Employee deletedEmployee = employeeRepository.findById(employeeId);
+
         System.out.println(deletedEmployee);
         employeeRepository.delete(deletedEmployee);
         response.sendRedirect(request.getContextPath() + "/057/employee?officeId=" + request.getParameter("officeId"));

@@ -57,6 +57,16 @@ public class EmployeeRepository {
         }
     }
 
+    public void updateReportsToForEmployee(Integer currentManagerId, Integer newManagerId) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        em.createNamedQuery("Employee.updateReportTo")
+                .setParameter("newManagerId", newManagerId)
+                .setParameter("currentManagerId", currentManagerId)
+                .executeUpdate();
+        em.getTransaction().commit();
+    }
+
     public void delete(Employee employee) {
         if (employee.getId() == null) {
             throw new IllegalArgumentException("Deleted Employee must not have null id");
