@@ -16,9 +16,9 @@ import java.util.List;
 
 public class TestQuery {
     public static void main(String[] args) {
-//        testQuery();
+        testQuery();
 //        testRepository();
-        assignPassword();
+//        assignPassword();
     }
 
     public static void testRepository() {
@@ -33,8 +33,9 @@ public class TestQuery {
 
         List<Office> offices = em.createNamedQuery("Office.findAll", Office.class).getResultList();
         Office office1 = em.createQuery("select o from Office o where o.id = :id", Office.class)
-                .setParameter("id", "9")
+                .setParameter("id", "1")
                 .getSingleResult();
+        System.out.println(office1);
     }
 
     public static void assignPassword() {

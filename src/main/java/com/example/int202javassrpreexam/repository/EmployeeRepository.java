@@ -25,7 +25,7 @@ public class EmployeeRepository {
         return getEntityManager().createNamedQuery("Employee.findAll", Employee.class).getResultList();
     }
 
-    public Employee findById(String employeeId) {
+    public Employee findById(Integer employeeId) {
         return getEntityManager()
                 .createNamedQuery("Employee.findById", Employee.class)
                 .setParameter("id", employeeId)
@@ -65,10 +65,12 @@ public class EmployeeRepository {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.remove(em.merge(employee));
+            em.remove(employee);
             em.getTransaction().commit();
         } catch (PersistenceException e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
         } finally {
             em.close();
         }
