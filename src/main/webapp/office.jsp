@@ -10,8 +10,8 @@
                 <p>STATE: ${office.state}</p>
                 <p>COUNTRY: ${office.country}</p>
                 <p>POSTAL CODE: ${office.postalCode}</p>
-                <div class="card-actions justify-end">
-                    <button class="btn btn-primary">Buy Now</button>
+                <div class="card-actions">
+                    <a class="btn btn-primary" href="057/employee?officeId=${office.id}">Manage Employee</a>
                 </div>
             </div>
         </div>
